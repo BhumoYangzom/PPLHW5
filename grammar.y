@@ -229,22 +229,22 @@ assignment :
     |
       T_PRED_ASSIGN varref T_ASSIGN l_expr T_PRED_SEP a_expr 
       {
-        itab_instruction_add (itab, ???, ????, NOARG, TBDARG);
-        itab_instruction_add (itab, ???, ????, ????, ?????);
-        itab->tab[????]->addr3 = ????;
+        itab_instruction_add (itab, OP_JMP, NOARG, NOARG, TBDARG);
+        itab_instruction_add (itab, OP_JZ, $4->addr, NOARG, TBDARG);
+        itab->tab[jmp_entry]->addr3 = INSTRUCTION_LAST;
         $$ = $2;
       }
     |
       T_PRED_ASSIGN_SC varref T_ASSIGN l_expr 
       {
-        itab_instruction_add (itab, ????, ????, NOARG, TBDARG);     
-        @$.begin.line = ??????;
+        itab_instruction_add (itab, OP_JMP, NOARG, NOARG, TBDARG);     
+        @$.begin.line = INSTRUCTION_NEXT;
       }
         T_PRED_SEP a_expr 
       {
-        itab_instruction_add (itab, ?????, ????? ,?????, ????);
-        int jmp_entry = ????.begin.line;
-        itab->tab[jmp_entry]->addr3 = ??????;
+        itab_instruction_add (itab, OP_JMP, NOARG, NOARG, TBDARG);
+        int jmp_entry = @6..begin.line;
+        itab->tab[jmp_entry]->addr3 = INSTRUCTION_NEXT;
         $$ = $2;
       }
     ;
