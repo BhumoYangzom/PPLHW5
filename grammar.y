@@ -231,7 +231,7 @@ assignment :
       {
         itab_instruction_add (itab, OP_JMP, NOARG, NOARG, TBDARG);
         itab_instruction_add (itab, OP_JZ, $4->addr, NOARG, TBDARG);
-        itab->tab[jmp_entry]->addr3 = INSTRUCTION_LAST;
+        itab->tab[@$.begin.line]->addr3 = INSTRUCTION_LAST;
         $$ = $2;
       }
     |
@@ -243,7 +243,7 @@ assignment :
         T_PRED_SEP a_expr 
       {
         itab_instruction_add (itab, OP_JMP, NOARG, NOARG, TBDARG);
-        int jmp_entry = @6..begin.line;
+        int jmp_entry = @6.begin.line;
         itab->tab[jmp_entry]->addr3 = INSTRUCTION_NEXT;
         $$ = $2;
       }
