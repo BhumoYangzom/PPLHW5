@@ -226,32 +226,25 @@ assignment :
         itab_instruction_add (itab, OP_STORE, $1->addr, $1->datatype, $3->addr);
         $$ = $1;
       }
-    
-   /*   T_PRED_ASSIGN varref T_ASSIGN l_expr T_PRED_SEP a_expr 
+    |
+      T_PRED_ASSIGN varref T_ASSIGN l_expr T_PRED_SEP a_expr 
       {
-        itab_instruction_add (itab, ???, ????, NOARG, TBDARG);
-        itab_instruction_add (itab, ???, ????, ????, ?????);
-        itab->tab[????]->addr3 = ????;
-        $$ = $2;
-      } */
- 	T_PRED_ASSIGN varref T_ASSIGN l_expr T_PRED_SEP a_expr 
-      {
-        itab_instruction_add (itab, OP_JZ, $1->addr, NOARG, TBDARG);
         itab_instruction_add (itab, OP_JZ, $2->addr, NOARG, TBDARG);
-        itab->tab[?@2.begin.line]->addr3 = INSTRUCTION_LAST;
+        itab_instruction_add (itab, OP_STORE, $1->addr, $1->datatype, $3->addr);
+        itab->tab[@5.begin.line]->addr3 = INSTRUCTION_NEXT;
         $$ = $2;
       }
-    
+    |
       T_PRED_ASSIGN_SC varref T_ASSIGN l_expr 
       {
-        itab_instruction_add (itab, OP_JZ, $6->addr, NOARG, TBDARG);     
+        itab_instruction_add (itab, OP_JZ, $2->addr, NOARG, TBDARG);     
         @$.begin.line = INSTRUCTION_NEXT;
       }
         T_PRED_SEP a_expr 
       {
-        itab_instruction_add (itab, $2, res->addr, $1->addr, $3->addr);
-        int jmp_entry = @2.begin.line;
-        itab->tab[jmp_entry]->addr3 = INSTRUCTION_NEXT;
+        itab_instruction_add (itab, OP_STORE, $1->addr, $1->datatype, $3->addr);
+        int jmp_entry = @7.begin.line;
+        itab->tab[jmp_entry]->addr3 = INSTRUCTION_LAST;
         $$ = $2;
       }
     ;
